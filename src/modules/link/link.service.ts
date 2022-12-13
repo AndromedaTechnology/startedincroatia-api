@@ -4,6 +4,13 @@ import { getLinkPreview, getPreviewFromContent } from "link-preview-js";
 // example how to use node's dns resolver
 // TODO: Enable (node:dns) in tests
 const dns = require("node:dns");
+async function fetchHtml(href: string): Promise<any> {
+  const ogs = require("open-graph-scraper");
+  const options = { url: href };
+  const data = await ogs(options);
+  const { error, result, response } = data;
+  return response; // This contains the HTML of page
+}
 async function fetchLink(href: string): Promise<any> {
   return getLinkPreview(href, {
     resolveDNSHost: async (url: string) => {
@@ -61,10 +68,17 @@ class LinkService {
         data.avatar_url =
           response.images && response.images.length ? response.images[0] : null;
       }
-      console.log("--response", response);
+      const html = await fetchHtml(data.href);
+      if (
+        html &&
+        html.rawBody &&
+        html.rawBody.toLowerCase().includes("startedincroatia.com")
+      ) {
+        const item = await linkModel.create(data);
+        return item;
+      }
     }
-    const item = await linkModel.create(data);
-    return item;
+    throw Error("Link not added or page not scraped");
   }
 
   async update(id: mongoose.Types.ObjectId, data: LinkDto): Promise<LinkDto> {
