@@ -1,6 +1,6 @@
 <h1 align="center">Started In Croatia.com</h1>
 <p align="center">
-  <a href="https://startedincroatia.com"><img src="https://startedincroatia.com/img/icons/logo.png"  alt="Started In Croatia Logo" /></a>
+  <a href="https://startedincroatia.com"><img src="https://startedincroatia.com/img/icons/logo.jpg"  alt="Started In Croatia Logo" /></a>
   <br />
   <br />
   <a href="https://startedincroatia.com">Best of Croatia</a>
